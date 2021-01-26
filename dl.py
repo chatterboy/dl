@@ -76,7 +76,8 @@ def test(test_loader, network, criterion):
 def dl(opt):
     train_loader = torch.utils.data.DataLoader(
         torchvision.datasets.CIFAR10(
-            'data',
+            opt.data_folder,
+            download=True,
             train=True,
             transform=torchvision.transforms.Compose([
                 torchvision.transforms.RandomCrop(32, padding=4),
@@ -89,7 +90,7 @@ def dl(opt):
 
     test_loader = torch.utils.data.DataLoader(
         torchvision.datasets.CIFAR10(
-            'data',
+            opt.data_folder,
             train=False,
             transform=torchvision.transforms.Compose([
                 torchvision.transforms.ToTensor(),
@@ -139,10 +140,11 @@ def dl(opt):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
+    parser.add_argument('--data_folder', default='data')
+    parser.add_argument('--model_folder', default='model')
     parser.add_argument('--dataset', default='cifar10')
     parser.add_argument('--network', default='model/wrn-16-2.pth')
     parser.add_argument('--num_epochs', default=240, type=int)
-    parser.add_argument('--temperature', default=2.5, type=float)
     parser.add_argument('--batch_size', default=128, type=int)
     parser.add_argument('--num_workers', default=8, type=int)
     parser.add_argument('--test_batch_size', default=128, type=int)
